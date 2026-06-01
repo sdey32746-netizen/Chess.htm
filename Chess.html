@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+
+body{
+background:#222;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+#board{
+display:grid;
+grid-template-columns:repeat(8,70px);
+}
+
+.square{
+width:70px;
+height:70px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:50px;
+cursor:pointer;
+user-select:none;
+}
+
+.white{
+background:#f0d9b5;
+}
+
+.black{
+background:#b58863;
+}
+
+.selected{
+outline:4px solid red;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="board"></div>
+
+<script>
+
+let pieces=[
+
+["♜","♞","♝","♛","♚","♝","♞","♜"],
+["♟","♟","♟","♟","♟","♟","♟","♟"],
+["","","","","","","",""],
+["","","","","","","",""],
+["","","","","","","",""],
+["","","","","","","",""],
+["♙","♙","♙","♙","♙","♙","♙","♙"],
+["♖","♘","♗","♕","♔","♗","♘","♖"]
+
+];
+
+let selected=null;
+
+function drawBoard(){
+
+let board=document.getElementById("board");
+
+board.innerHTML="";
+
+for(let i=0;i<8;i++){
+
+for(let j=0;j<8;j++){
+
+let sq=document.createElement("div");
+
+sq.classList.add("square");
+
+if((i+j)%2==0)
+sq.classList.add("white");
+else
+sq.classList.add("black");
+
+sq.innerHTML=pieces[i][j];
+
+if(selected &&
+selected[0]==i &&
+selected[1]==j){
+
+sq.classList.add("selected");
+
+}
+
+sq.onclick=function(){
+
+clickSquare(i,j);
+
+};
+
+board.appendChild(sq);
+
+}
+
+}
+
+}
+
+function clickSquare(i,j){
+
+if(selected==null){
+
+if(pieces[i][j]!=""){
+
+selected=[i,j];
+
+}
+
+}
+else{
+
+let x=selected[0];
+let y=selected[1];
+
+pieces[i][j]=pieces[x][y];
+
+pieces[x][y]="";
+
+selected=null;
+
+}
+
+drawBoard();
+
+}
+
+drawBoard();
+
+</script>
+
+</body>
+</html>
